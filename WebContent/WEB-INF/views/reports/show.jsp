@@ -37,7 +37,7 @@
                         </tr>
                         <tr>
                             <th>いいね数</th>
-                            <td><c:out value="${report.like_count}" /></td>
+                            <td class="report_like_count"><a href="<c:url value='/likes/index?id=${report.id}' />">${report.like_count}</a></td>
                         </tr>
                     </tbody>
                 </table>

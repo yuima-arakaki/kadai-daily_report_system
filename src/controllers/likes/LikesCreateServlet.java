@@ -1,6 +1,7 @@
 package controllers.likes;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
+import models.Like;
 import models.Report;
 import utils.DBUtil;
 
@@ -24,14 +27,24 @@ public class LikesCreateServlet extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
-
         r.setLike_count(1 + r.getLike_count());
 
+        Like l = new Like();
+
+        l.setReport(r);
+        l.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
+
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        l.setCreated_at(currentTime);
+        l.setUpdated_at(currentTime);
+
         em.getTransaction().begin();
+        em.persist(l);
         em.getTransaction().commit();
         em.close();
         request.getSession().setAttribute("flush", "いいねしました");
 
         response.sendRedirect(request.getContextPath() + "/reports/index");
+
     }
 }
