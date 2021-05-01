@@ -24,7 +24,15 @@
                         <td class="report_name"><c:out value="${report.employee.name}" /></td>
                         <td class="report_date"><fmt:formatDate value='${report.report_date}' pattern='yyyy-MM-dd' /></td>
                         <td class="report_title">${report.title}</td>
-                        <td class="report_like_count"><a href="<c:url value='/likes/index?id=${report.id}' />">${report.like_count}</a></td>
+                        <c:set var="r" value="${report.like_count}" />
+                        <c:choose>
+                            <c:when test="${r >= 1}">
+                                <td class="report_like_count"><a href="<c:url value='/likes/index?id=${report.id}' />">${report.like_count}</a></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="report_like_count">${report.like_count}</td>
+                            </c:otherwise>
+                        </c:choose>
                         <td class="report_action"><a href="<c:url value='/reports/show?id=${report.id}' />">詳細を見る</a></td>
                     </tr>
                 </c:forEach>

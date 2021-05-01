@@ -37,7 +37,15 @@
                         </tr>
                         <tr>
                             <th>いいね数</th>
-                            <td class="report_like_count"><a href="<c:url value='/likes/index?id=${report.id}' />">${report.like_count}</a></td>
+                            <c:set var="r" value="${report.like_count}" />
+                            <c:choose>
+                                <c:when test="${r >= 1}">
+                                    <td class="report_like_count"><a href="<c:url value='/likes/index?id=${report.id}' />">${report.like_count}</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td class="report_like_count">${report.like_count}</td>
+                                </c:otherwise>
+                            </c:choose>
                         </tr>
                     </tbody>
                 </table>
@@ -51,8 +59,8 @@
             </c:otherwise>
         </c:choose>
 
-        <c:if test="${sessionScope.login_employee.id != report.employee.id}">
-            <p><a href="<c:url value="/likes/create?id=${report.id}" />">この日報にいいねする</a></p>
+        <c:if test="${sessionScope.login_employee.id != report.employee.id && likes_count2 == 0}">
+                <p><a href="<c:url value="/likes/create?id=${report.id}" />">この日報にいいねする</a></p>
         </c:if>
 
         <p><a href="<c:url value="/reports/index" />">一覧に戻る</a></p>

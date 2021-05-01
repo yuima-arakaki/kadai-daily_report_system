@@ -49,9 +49,9 @@ public class LikesIndexServlet extends HttpServlet {
         request.setAttribute("likes", likes);
         request.setAttribute("likes_count", likes_count);
         request.setAttribute("page", page);
+        request.setAttribute("report", r);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/likes/index.jsp");
-         rd.forward(request, response);
+        rd.forward(request, response);
     }
-
 }
